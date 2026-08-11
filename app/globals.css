@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f9f9fd;
+  --foreground: #1a1a2e;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-open-sans), Open Sans, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-nunito), Nunito, sans-serif;
+}
+
+/* Visible "pressed" feedback on any button/link click, site-wide */
+button, a {
+  transition: transform 0.1s ease;
+}
+button:active, a:active {
+  transform: scale(0.96);
+}
+@media (prefers-reduced-motion: reduce) {
+  button, a {
+    transition: none;
+  }
+  button:active, a:active {
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.25s ease;
+}
+
+/* Simple print stylesheet so the on-page live preview can also be printed directly */
+@media print {
+  header, nav, .no-print {
+    display: none !important;
+  }
+}
