@@ -1,4 +1,5 @@
 import type { CoverLetterData } from "@/lib/types";
+import { HighlightPlaceholders } from "@/components/wizard/HighlightPlaceholders";
 
 export function CoverLetterPreview({ data }: { data: CoverLetterData }) {
   const greetingName = data.employerName ? data.employerName : "Hiring Manager";
@@ -14,7 +15,9 @@ export function CoverLetterPreview({ data }: { data: CoverLetterData }) {
         {[data.phone, data.email, data.suburbState].filter(Boolean).join("  |  ") || "Phone  |  Email  |  Suburb, State"}
       </p>
 
-      <p className="mt-4">{data.date || "[Date]"}</p>
+      <p className="mt-4">
+        <HighlightPlaceholders text={data.date || "[Date]"} />
+      </p>
 
       <div className="mt-4">
         {data.employerName && <p>{data.employerName}</p>}
@@ -26,12 +29,28 @@ export function CoverLetterPreview({ data }: { data: CoverLetterData }) {
 
       <div className="mt-3 space-y-3">
         <p>
-          {data.openingParagraph ||
-            "I am writing to apply for the [job title] position advertised on/at [where you saw it]."}
+          <HighlightPlaceholders
+            text={
+              data.openingParagraph ||
+              "I am writing to apply for the [job title] position advertised on/at [where you saw it]."
+            }
+          />
         </p>
-        {data.fitParagraph && <p>{data.fitParagraph}</p>}
-        {data.companyParagraph && <p>{data.companyParagraph}</p>}
-        {data.closingParagraph && <p>{data.closingParagraph}</p>}
+        {data.fitParagraph && (
+          <p>
+            <HighlightPlaceholders text={data.fitParagraph} />
+          </p>
+        )}
+        {data.companyParagraph && (
+          <p>
+            <HighlightPlaceholders text={data.companyParagraph} />
+          </p>
+        )}
+        {data.closingParagraph && (
+          <p>
+            <HighlightPlaceholders text={data.closingParagraph} />
+          </p>
+        )}
       </div>
 
       <p className="mt-4">{signOff}</p>

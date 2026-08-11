@@ -2,6 +2,7 @@
 
 import { PlusCircle } from "lucide-react";
 import type { SentenceStarter } from "@/lib/content";
+import { HighlightPlaceholders } from "./HighlightPlaceholders";
 
 export function SentenceStarters({
   starters,
@@ -26,7 +27,9 @@ export function SentenceStarters({
             <PlusCircle size={15} className="mt-0.5 shrink-0 text-gray-400" />
             <span>
               <span className="font-semibold text-gray-800">{s.label}: </span>
-              <span className="text-gray-600 italic">{s.text}</span>
+              <span className="text-gray-600 italic">
+                <HighlightPlaceholders text={s.text} />
+              </span>
             </span>
           </button>
         ))}

@@ -15,6 +15,10 @@ export function useLocalStorageState<T>(key: string, initialValue: T) {
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(key);
+      // One-time hydration from localStorage after mount — required so the
+      // server-rendered markup (no access to localStorage) matches the
+      // client's first render, avoiding a hydration mismatch.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setValue(JSON.parse(raw) as T);
     } catch {
       // ignore malformed/blocked storage
@@ -22,7 +26,6 @@ export function useLocalStorageState<T>(key: string, initialValue: T) {
       hasLoaded.current = true;
       setHydrated(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
   useEffect(() => {

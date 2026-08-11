@@ -1,4 +1,5 @@
 import type { ResumeData } from "@/lib/types";
+import { HighlightPlaceholders } from "@/components/wizard/HighlightPlaceholders";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -39,7 +40,9 @@ export function ResumePreview({ data }: { data: ResumeData }) {
 
       {data.personalStatement && (
         <Section title="Personal Statement">
-          <p className="text-[12.5px]">{data.personalStatement}</p>
+          <p className="text-[12.5px]">
+            <HighlightPlaceholders text={data.personalStatement} />
+          </p>
         </Section>
       )}
 
@@ -47,7 +50,9 @@ export function ResumePreview({ data }: { data: ResumeData }) {
         <Section title="Personal Qualities">
           <ul className="list-disc pl-4 space-y-0.5">
             {data.personalQualities.map((q, i) => (
-              <li key={i}>{q}</li>
+              <li key={i}>
+                <HighlightPlaceholders text={q} />
+              </li>
             ))}
           </ul>
         </Section>
@@ -62,12 +67,20 @@ export function ResumePreview({ data }: { data: ResumeData }) {
               {data.yearsAttended}
             </p>
           )}
-          {data.subjects && <p>{data.subjects}</p>}
-          {data.previousSchools && <p className="mt-1">{data.previousSchools}</p>}
+          {data.subjects && (
+            <p>
+              <HighlightPlaceholders text={data.subjects} />
+            </p>
+          )}
+          {data.previousSchools && (
+            <p className="mt-1">
+              <HighlightPlaceholders text={data.previousSchools} />
+            </p>
+          )}
           {hasCerts &&
             data.certificates.split("\n").filter(Boolean).map((c, i) => (
               <p key={i} className="mt-0.5">
-                {c}
+                <HighlightPlaceholders text={c} />
               </p>
             ))}
         </Section>
@@ -84,7 +97,9 @@ export function ResumePreview({ data }: { data: ResumeData }) {
               {job.bullets.length > 0 && (
                 <ul className="list-disc pl-4 space-y-0.5 mt-0.5">
                   {job.bullets.map((b, i) => (
-                    <li key={i}>{b}</li>
+                    <li key={i}>
+                      <HighlightPlaceholders text={b} />
+                    </li>
                   ))}
                 </ul>
               )}
@@ -99,31 +114,31 @@ export function ResumePreview({ data }: { data: ResumeData }) {
             {data.skillsDigital && (
               <li>
                 <span className="font-semibold">Digital: </span>
-                {data.skillsDigital}
+                <HighlightPlaceholders text={data.skillsDigital} />
               </li>
             )}
             {data.skillsCommunication && (
               <li>
                 <span className="font-semibold">Communication: </span>
-                {data.skillsCommunication}
+                <HighlightPlaceholders text={data.skillsCommunication} />
               </li>
             )}
             {data.skillsLanguages && (
               <li>
                 <span className="font-semibold">Languages: </span>
-                {data.skillsLanguages}
+                <HighlightPlaceholders text={data.skillsLanguages} />
               </li>
             )}
             {data.skillsOther && (
               <li>
                 <span className="font-semibold">Organisational: </span>
-                {data.skillsOther}
+                <HighlightPlaceholders text={data.skillsOther} />
               </li>
             )}
             {data.skillsCertificates && (
               <li>
                 <span className="font-semibold">Licences/Certificates: </span>
-                {data.skillsCertificates}
+                <HighlightPlaceholders text={data.skillsCertificates} />
               </li>
             )}
           </ul>
@@ -134,7 +149,9 @@ export function ResumePreview({ data }: { data: ResumeData }) {
         <Section title="Special Achievements and Awards">
           <ul className="list-disc pl-4 space-y-0.5">
             {data.achievements.map((a, i) => (
-              <li key={i}>{a}</li>
+              <li key={i}>
+                <HighlightPlaceholders text={a} />
+              </li>
             ))}
           </ul>
         </Section>
@@ -142,7 +159,9 @@ export function ResumePreview({ data }: { data: ResumeData }) {
 
       {data.hobbies && (
         <Section title="Hobbies and Interests">
-          <p>{data.hobbies}</p>
+          <p>
+            <HighlightPlaceholders text={data.hobbies} />
+          </p>
         </Section>
       )}
 

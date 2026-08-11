@@ -40,7 +40,7 @@ export function DetailsStep({
 
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 space-y-4">
         <p className="text-sm font-bold" style={{ color: "#3d2c8d" }}>
-          Who you're writing to
+          Who you&apos;re writing to
         </p>
         <TextField
           label="Employer / manager name"

@@ -2,6 +2,7 @@
 
 import { Sparkles } from "lucide-react";
 import type { IdeaBox as IdeaBoxType } from "@/lib/content";
+import { HighlightPlaceholders } from "./HighlightPlaceholders";
 
 export function IdeasBox({
   idea,
@@ -35,7 +36,7 @@ export function IdeasBox({
         <ul className="space-y-1.5">
           {idea.items.map((item) => (
             <li key={item} className="text-sm text-amber-900 leading-relaxed">
-              • {item}
+              • <HighlightPlaceholders text={item} />
             </li>
           ))}
         </ul>
