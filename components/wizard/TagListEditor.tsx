@@ -9,6 +9,8 @@ export function TagListEditor({
   onChange,
   placeholder,
   quickAdds,
+  draft: draftProp,
+  onDraftChange,
 }: {
   label: string;
   items: string[];
@@ -16,8 +18,13 @@ export function TagListEditor({
   placeholder?: string;
   /** Small chips above the input — clicking loads the text into the input for editing, rather than adding it directly. */
   quickAdds?: { label: string; text: string }[];
+  /** Pass both to let a parent (e.g. an external sentence-starter list) control the draft input; otherwise it manages its own state. */
+  draft?: string;
+  onDraftChange?: (value: string) => void;
 }) {
-  const [draft, setDraft] = useState("");
+  const [internalDraft, setInternalDraft] = useState("");
+  const draft = draftProp !== undefined ? draftProp : internalDraft;
+  const setDraft = onDraftChange ?? setInternalDraft;
 
   function add() {
     const value = draft.trim();

@@ -31,7 +31,7 @@ export function PersonalStatementStep({
           rows={6}
           value={data.personalStatement}
           onChange={(e) => onChange({ personalStatement: e.target.value })}
-          placeholder="I am an enthusiastic Year 10 student at..."
+          placeholder="I am an enthusiastic Year [year level] student at..."
         />
       </div>
     </div>

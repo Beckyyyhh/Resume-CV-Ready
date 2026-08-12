@@ -31,7 +31,7 @@ export function RefereesStep({
       <InstructionPanel content={{ ...refereesStep, whatToInclude: [] }} />
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
         <p className="text-sm font-bold mb-2" style={{ color: "#3d2c8d" }}>
-          Good referees for a Year 10 student
+          Good referees for a school student
         </p>
         <ul className="space-y-1.5">
           {refereesStep.whatToInclude.map((item) => (

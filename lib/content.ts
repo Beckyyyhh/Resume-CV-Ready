@@ -103,7 +103,7 @@ export const personalStatementStep: StepContent = {
     "The type of role or opportunity you are seeking",
   ],
   sentenceStarters: [
-    { label: "Opening", text: "I am an enthusiastic Year 10 student at [School Name] with a strong interest in..." },
+    { label: "Opening", text: "I am an enthusiastic Year [year level] student at [School Name] with a strong interest in..." },
     { label: "Strengths", text: "I am known for being [quality], [quality], and [quality]..." },
     { label: "Goal", text: "I am passionate about [area] and am keen to develop my skills in..." },
     { label: "Seeking", text: "I am looking for a part-time / volunteer / work experience role where I can..." },
@@ -161,7 +161,7 @@ export const educationStep: StepContent = {
     "Awards or recognition at school",
   ],
   sentenceStarters: [
-    { label: "Current school", text: "[School Name] — Year 10, [Year] – Present" },
+    { label: "Current school", text: "[School Name] — Year [year level], [Year] – Present" },
     { label: "Subjects", text: "Currently studying [Subject], [Subject], and [Subject], which have helped me develop skills in..." },
     { label: "Certificates", text: "Completed [Certificate Name] in [Month/Year], gaining skills in..." },
     { label: "Online learning", text: "Completed online courses in [topic] through [platform, e.g. Khan Academy, Coursera]" },

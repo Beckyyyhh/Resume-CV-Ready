@@ -55,7 +55,7 @@ export function EducationStep({
           rows={3}
           value={data.subjects}
           onChange={(e) => onChange({ subjects: e.target.value })}
-          placeholder="Currently completing Year 10. Subjects include..."
+          placeholder="Currently completing Year [year level]. Subjects include..."
         />
         <TextField
           label="Previous school(s)"

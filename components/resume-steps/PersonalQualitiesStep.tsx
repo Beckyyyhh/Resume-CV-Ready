@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import { InstructionPanel } from "@/components/wizard/InstructionPanel";
+import { SentenceStarters } from "@/components/wizard/SentenceStarters";
 import { IdeasBox } from "@/components/wizard/IdeasBox";
 import { TagListEditor } from "@/components/wizard/TagListEditor";
 import { personalQualitiesStep, personalQualitiesWordBank } from "@/lib/content";
@@ -11,16 +15,17 @@ export function PersonalQualitiesStep({
   data: ResumeData;
   onChange: (patch: Partial<ResumeData>) => void;
 }) {
+  const [draft, setDraft] = useState("");
+
   function addQuality(text: string) {
     if (data.personalQualities.includes(text)) return;
     onChange({ personalQualities: [...data.personalQualities, text] });
   }
 
-  const quickAdds = (personalQualitiesStep.sentenceStarters ?? []).map((s) => ({ label: s.label, text: s.text }));
-
   return (
     <div className="space-y-5 animate-fade-in">
       <InstructionPanel content={personalQualitiesStep} />
+      <SentenceStarters starters={personalQualitiesStep.sentenceStarters ?? []} onUse={setDraft} />
       <IdeasBox
         idea={{ title: "Word bank — click to add", items: personalQualitiesWordBank }}
         onUseItem={addQuality}
@@ -31,7 +36,8 @@ export function PersonalQualitiesStep({
           items={data.personalQualities}
           onChange={(items) => onChange({ personalQualities: items })}
           placeholder="Type a quality and press Add"
-          quickAdds={quickAdds}
+          draft={draft}
+          onDraftChange={setDraft}
         />
       </div>
     </div>
