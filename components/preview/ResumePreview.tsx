@@ -1,12 +1,49 @@
 import type { ResumeData } from "@/lib/types";
 import { HighlightPlaceholders } from "@/components/wizard/HighlightPlaceholders";
+import { getResumeTemplate, type ResumeTemplateId, type ResumeTemplateStyle } from "@/lib/templates";
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  template,
+  children,
+}: {
+  title: string;
+  template: ResumeTemplateStyle;
+  children: React.ReactNode;
+}) {
+  if (template.sectionStyle === "bar") {
+    return (
+      <div className="mb-3.5">
+        <p
+          className="text-[11px] font-extrabold tracking-wider uppercase pl-2 mb-1.5 border-l-4"
+          style={{ color: template.colors.heading, borderColor: template.colors.accent }}
+        >
+          {title}
+        </p>
+        {children}
+      </div>
+    );
+  }
+
+  if (template.sectionStyle === "plain") {
+    return (
+      <div className="mb-3.5">
+        <p
+          className="text-[10px] font-bold uppercase mb-1.5"
+          style={{ color: template.colors.muted, letterSpacing: "0.15em" }}
+        >
+          {title}
+        </p>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div className="mb-3.5">
       <p
         className="text-[11px] font-extrabold tracking-wider uppercase border-b-2 pb-0.5 mb-1.5"
-        style={{ color: "#26215c", borderColor: "#3d2c8d" }}
+        style={{ color: template.colors.heading, borderColor: template.colors.accent }}
       >
         {title}
       </p>
@@ -15,7 +52,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-export function ResumePreview({ data }: { data: ResumeData }) {
+export function ResumePreview({ data, templateId }: { data: ResumeData; templateId?: ResumeTemplateId }) {
+  const template = getResumeTemplate(templateId);
   const hasCerts = data.certificates.trim().length > 0;
   const anyEducation =
     data.currentSchool || data.yearsAttended || data.subjects || data.previousSchools || hasCerts;
@@ -27,19 +65,19 @@ export function ResumePreview({ data }: { data: ResumeData }) {
     <div
       id="resume-preview-surface"
       className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto"
-      style={{ fontFamily: "Georgia, 'Times New Roman', serif", width: "100%", maxWidth: 720, fontSize: 12.5, lineHeight: 1.45 }}
+      style={{ fontFamily: template.fonts.cssBody, width: "100%", maxWidth: 720, fontSize: 12.5, lineHeight: 1.45 }}
     >
-      <div className="text-center mb-4">
+      <div className={`mb-4 ${template.headerAlign === "center" ? "text-center" : "text-left"}`}>
         <p className="text-2xl font-bold tracking-wide" style={{ color: "#1a1a2e" }}>
           {data.fullName || "Your Name"}
         </p>
-        <p className="text-xs text-gray-600 mt-1">
+        <p className="text-xs mt-1" style={{ color: template.colors.muted }}>
           {[data.phone, data.email, data.suburbState].filter(Boolean).join("  |  ") || "Phone  |  Email  |  Suburb, State"}
         </p>
       </div>
 
       {data.personalStatement && (
-        <Section title="Personal Statement">
+        <Section title="Personal Statement" template={template}>
           <p className="text-[12.5px]">
             <HighlightPlaceholders text={data.personalStatement} />
           </p>
@@ -47,7 +85,7 @@ export function ResumePreview({ data }: { data: ResumeData }) {
       )}
 
       {data.personalQualities.length > 0 && (
-        <Section title="Personal Qualities">
+        <Section title="Personal Qualities" template={template}>
           <ul className="list-disc pl-4 space-y-0.5">
             {data.personalQualities.map((q, i) => (
               <li key={i}>
@@ -59,7 +97,7 @@ export function ResumePreview({ data }: { data: ResumeData }) {
       )}
 
       {anyEducation && (
-        <Section title="Education and Training">
+        <Section title="Education and Training" template={template}>
           {(data.currentSchool || data.yearsAttended) && (
             <p className="font-semibold">
               {data.currentSchool}
@@ -87,12 +125,17 @@ export function ResumePreview({ data }: { data: ResumeData }) {
       )}
 
       {data.employment.length > 0 && (
-        <Section title="Employment History">
+        <Section title="Employment History" template={template}>
           {data.employment.map((job) => (
             <div key={job.id} className="mb-2 last:mb-0">
               <p className="font-semibold">
                 {[job.role, job.organisation].filter(Boolean).join("  —  ")}
-                {job.dates && <span className="font-normal text-gray-600">  |  {job.dates}</span>}
+                {job.dates && (
+                  <span className="font-normal" style={{ color: template.colors.muted }}>
+                    {"  |  "}
+                    {job.dates}
+                  </span>
+                )}
               </p>
               {job.bullets.length > 0 && (
                 <ul className="list-disc pl-4 space-y-0.5 mt-0.5">
@@ -109,7 +152,7 @@ export function ResumePreview({ data }: { data: ResumeData }) {
       )}
 
       {hasSkills && (
-        <Section title="Skills">
+        <Section title="Skills" template={template}>
           <ul className="space-y-0.5">
             {data.skillsDigital && (
               <li>
@@ -146,7 +189,7 @@ export function ResumePreview({ data }: { data: ResumeData }) {
       )}
 
       {data.achievements.length > 0 && (
-        <Section title="Special Achievements and Awards">
+        <Section title="Special Achievements and Awards" template={template}>
           <ul className="list-disc pl-4 space-y-0.5">
             {data.achievements.map((a, i) => (
               <li key={i}>
@@ -158,7 +201,7 @@ export function ResumePreview({ data }: { data: ResumeData }) {
       )}
 
       {data.hobbies && (
-        <Section title="Hobbies and Interests">
+        <Section title="Hobbies and Interests" template={template}>
           <p>
             <HighlightPlaceholders text={data.hobbies} />
           </p>
@@ -166,7 +209,7 @@ export function ResumePreview({ data }: { data: ResumeData }) {
       )}
 
       {data.referees.length > 0 && (
-        <Section title="Referees">
+        <Section title="Referees" template={template}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {data.referees.map((r) => (
               <div key={r.id}>

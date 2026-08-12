@@ -1,62 +1,72 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { ResumeData } from "@/lib/types";
+import { getResumeTemplate, type ResumeTemplateId, type ResumeTemplateStyle } from "@/lib/templates";
 
-const styles = StyleSheet.create({
-  page: {
-    paddingTop: 42,
-    paddingBottom: 42,
-    paddingHorizontal: 48,
-    fontFamily: "Times-Roman",
-    fontSize: 10.5,
-    lineHeight: 1.4,
-    color: "#1a1a2e",
-  },
-  name: {
-    fontFamily: "Times-Bold",
-    fontSize: 20,
-    textAlign: "center",
-    letterSpacing: 0.5,
-  },
-  contactLine: {
-    textAlign: "center",
-    fontSize: 9,
-    color: "#374151",
-    marginTop: 4,
-    marginBottom: 14,
-  },
-  sectionTitle: {
-    fontFamily: "Times-Bold",
+function buildStyles(template: ResumeTemplateStyle) {
+  const sectionTitleBase = {
+    fontFamily: template.fonts.pdfBold,
     fontSize: 10,
-    textTransform: "uppercase",
+    textTransform: "uppercase" as const,
     letterSpacing: 1,
-    borderBottomWidth: 1.2,
-    borderBottomColor: "#3d2c8d",
-    paddingBottom: 2,
     marginBottom: 5,
-  },
-  section: {
-    marginBottom: 11,
-  },
-  bold: {
-    fontFamily: "Times-Bold",
-  },
-  bulletRow: {
-    flexDirection: "row",
-    marginBottom: 1.5,
-  },
-  bulletDot: {
-    width: 10,
-  },
-  bulletText: {
-    flex: 1,
-  },
-  entryBlock: {
-    marginBottom: 6,
-  },
-  muted: {
-    color: "#4b5563",
-  },
-});
+    color: template.colors.heading,
+  };
+
+  const sectionTitle =
+    template.sectionStyle === "underline"
+      ? { ...sectionTitleBase, borderBottomWidth: 1.2, borderBottomColor: template.colors.accent, paddingBottom: 2 }
+      : template.sectionStyle === "bar"
+        ? { ...sectionTitleBase, borderLeftWidth: 3, borderLeftColor: template.colors.accent, paddingLeft: 6 }
+        : { ...sectionTitleBase, fontSize: 9, letterSpacing: 1.5, color: template.colors.muted };
+
+  return StyleSheet.create({
+    page: {
+      paddingTop: 42,
+      paddingBottom: 42,
+      paddingHorizontal: 48,
+      fontFamily: template.fonts.pdfBody,
+      fontSize: 10.5,
+      lineHeight: 1.4,
+      color: "#1a1a2e",
+    },
+    name: {
+      fontFamily: template.fonts.pdfBold,
+      fontSize: 20,
+      textAlign: template.headerAlign,
+      letterSpacing: 0.5,
+    },
+    contactLine: {
+      textAlign: template.headerAlign,
+      fontSize: 9,
+      color: template.colors.muted,
+      marginTop: 4,
+      marginBottom: 14,
+    },
+    sectionTitle,
+    section: {
+      marginBottom: 11,
+    },
+    bold: {
+      fontFamily: template.fonts.pdfBold,
+    },
+    bulletRow: {
+      flexDirection: "row",
+      marginBottom: 1.5,
+    },
+    bulletDot: {
+      width: 10,
+    },
+    bulletText: {
+      flex: 1,
+    },
+    entryBlock: {
+      marginBottom: 6,
+    },
+    muted: {
+      color: template.colors.muted,
+    },
+  });
+}
 
 // react-pdf's bundled bold core-font metrics mis-kern the letter pair "M"+r/s
 // (e.g. "Mr", "Ms"), rendering a visible gap — see PDFKit/react-pdf AFM data.
@@ -66,7 +76,7 @@ function splitNameTitle(name: string): [string, string] {
   return match ? [`${match[1]} `, match[2]] : ["", name];
 }
 
-function BulletList({ items }: { items: string[] }) {
+function BulletList({ items, styles }: { items: string[]; styles: ReturnType<typeof buildStyles> }) {
   return (
     <>
       {items.map((item, i) => (
@@ -79,7 +89,10 @@ function BulletList({ items }: { items: string[] }) {
   );
 }
 
-export function ResumeDocument({ data }: { data: ResumeData }) {
+export function ResumeDocument({ data, templateId }: { data: ResumeData; templateId?: ResumeTemplateId }) {
+  const template = getResumeTemplate(templateId);
+  const styles = buildStyles(template);
+
   const hasCerts = data.certificates.trim().length > 0;
   const anyEducation = data.currentSchool || data.yearsAttended || data.subjects || data.previousSchools || hasCerts;
   const hasSkills =
@@ -103,7 +116,7 @@ export function ResumeDocument({ data }: { data: ResumeData }) {
         {data.personalQualities.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Personal Qualities</Text>
-            <BulletList items={data.personalQualities} />
+            <BulletList items={data.personalQualities} styles={styles} />
           </View>
         )}
 
@@ -134,7 +147,7 @@ export function ResumeDocument({ data }: { data: ResumeData }) {
                   {[job.role, job.organisation].filter(Boolean).join("  —  ")}
                   {job.dates ? `   |   ${job.dates}` : ""}
                 </Text>
-                <BulletList items={job.bullets} />
+                <BulletList items={job.bullets} styles={styles} />
               </View>
             ))}
           </View>
@@ -179,7 +192,7 @@ export function ResumeDocument({ data }: { data: ResumeData }) {
         {data.achievements.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Special Achievements and Awards</Text>
-            <BulletList items={data.achievements} />
+            <BulletList items={data.achievements} styles={styles} />
           </View>
         )}
 

@@ -36,6 +36,7 @@ export function TagListEditor({
               key={q.label}
               type="button"
               onClick={() => setDraft(q.text)}
+              title={q.text}
               className="text-xs font-semibold px-2.5 py-1 rounded-full border bg-white hover:bg-[#faf5ff] transition-colors"
               style={{ borderColor: "#afa9ec", color: "#534ab7" }}
             >
@@ -46,12 +47,20 @@ export function TagListEditor({
       )}
       <div className="mt-1.5 space-y-1.5">
         {items.map((item, i) => (
-          <div key={i} className="flex items-center gap-2 rounded-md border border-gray-300 px-3 py-2">
-            <span className="text-sm text-gray-700 flex-1">{item}</span>
+          <div key={i} className="flex items-center gap-2 rounded-md border border-gray-300 px-3 py-2 focus-within:ring-2 focus-within:ring-[#afa9ec]">
+            <input
+              value={item}
+              onChange={(e) => {
+                const next = [...items];
+                next[i] = e.target.value;
+                onChange(next);
+              }}
+              className="text-sm text-gray-700 flex-1 bg-transparent focus:outline-none"
+            />
             <button
               type="button"
               onClick={() => onChange(items.filter((_, idx) => idx !== i))}
-              className="text-gray-400 hover:text-red-500 transition-colors"
+              className="text-gray-400 hover:text-red-500 transition-colors shrink-0"
               aria-label={`Remove ${item}`}
             >
               <X size={15} />

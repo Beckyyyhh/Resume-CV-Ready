@@ -7,6 +7,7 @@ import { StepNav } from "@/components/wizard/StepNav";
 import { WizardLayout } from "@/components/wizard/WizardLayout";
 import { ResumePreview } from "@/components/preview/ResumePreview";
 import { ExampleModal } from "@/components/wizard/ExampleModal";
+import { TemplatePicker } from "@/components/wizard/TemplatePicker";
 import { IntroStep } from "@/components/resume-steps/IntroStep";
 import { ContactStep } from "@/components/resume-steps/ContactStep";
 import { PersonalStatementStep } from "@/components/resume-steps/PersonalStatementStep";
@@ -22,8 +23,10 @@ import { useLocalStorageState, clearLocalStorageState } from "@/lib/useLocalStor
 import { emptyResumeData, type ResumeData } from "@/lib/types";
 import { exampleResume } from "@/lib/content";
 import { downloadResumePdf, downloadResumeDocx } from "@/lib/downloads";
+import { DEFAULT_RESUME_TEMPLATE, type ResumeTemplateId } from "@/lib/templates";
 
 const STORAGE_KEY = "resume-builder-data-v1";
+const TEMPLATE_STORAGE_KEY = "resume-builder-template-v1";
 
 const STEP_LABELS = [
   "Intro",
@@ -41,6 +44,10 @@ const STEP_LABELS = [
 
 export default function ResumeBuilderPage() {
   const { value: data, setValue: setData, hydrated } = useLocalStorageState<ResumeData>(STORAGE_KEY, emptyResumeData);
+  const { value: templateId, setValue: setTemplateId } = useLocalStorageState<ResumeTemplateId>(
+    TEMPLATE_STORAGE_KEY,
+    DEFAULT_RESUME_TEMPLATE
+  );
   const [step, setStep] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [docxLoading, setDocxLoading] = useState(false);
@@ -57,7 +64,7 @@ export default function ResumeBuilderPage() {
   async function handleDownloadPdf() {
     setPdfLoading(true);
     try {
-      await downloadResumePdf(data);
+      await downloadResumePdf(data, templateId);
     } finally {
       setPdfLoading(false);
     }
@@ -66,7 +73,7 @@ export default function ResumeBuilderPage() {
   async function handleDownloadDocx() {
     setDocxLoading(true);
     try {
-      await downloadResumeDocx(data);
+      await downloadResumeDocx(data, templateId);
     } finally {
       setDocxLoading(false);
     }
@@ -135,7 +142,7 @@ export default function ResumeBuilderPage() {
         </div>
         <div className="flex items-center gap-2 no-print shrink-0">
           <ExampleModal buttonLabel="View example" title="Example resume — Jessica Taylor">
-            <ResumePreview data={exampleResume} />
+            <ResumePreview data={exampleResume} templateId={templateId} />
           </ExampleModal>
           <button
             type="button"
@@ -161,7 +168,12 @@ export default function ResumeBuilderPage() {
             />
           </div>
         }
-        preview={<ResumePreview data={data} />}
+        preview={
+          <div className="space-y-3">
+            <TemplatePicker value={templateId} onChange={setTemplateId} />
+            <ResumePreview data={data} templateId={templateId} />
+          </div>
+        }
       />
     </div>
   );

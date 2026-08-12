@@ -5,19 +5,20 @@ import { CoverLetterDocument } from "./pdf/CoverLetterDocument";
 import { buildResumeDocxBlob } from "./docx/resumeDocx";
 import { buildCoverLetterDocxBlob } from "./docx/coverLetterDocx";
 import type { ResumeData, CoverLetterData } from "./types";
+import type { ResumeTemplateId } from "./templates";
 
 function slug(name: string, fallback: string) {
   const base = name.trim() || fallback;
   return base.replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase() || fallback;
 }
 
-export async function downloadResumePdf(data: ResumeData) {
-  const blob = await pdf(<ResumeDocument data={data} />).toBlob();
+export async function downloadResumePdf(data: ResumeData, templateId?: ResumeTemplateId) {
+  const blob = await pdf(<ResumeDocument data={data} templateId={templateId} />).toBlob();
   saveAs(blob, `${slug(data.fullName, "resume")}-resume.pdf`);
 }
 
-export async function downloadResumeDocx(data: ResumeData) {
-  const blob = await buildResumeDocxBlob(data);
+export async function downloadResumeDocx(data: ResumeData, templateId?: ResumeTemplateId) {
+  const blob = await buildResumeDocxBlob(data, templateId);
   saveAs(blob, `${slug(data.fullName, "resume")}-resume.docx`);
 }
 
