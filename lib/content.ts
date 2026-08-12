@@ -161,7 +161,7 @@ export const educationStep: StepContent = {
     "Awards or recognition at school",
   ],
   sentenceStarters: [
-    { label: "Current school", text: "[School Name] — Year [year level], [Year] – Present" },
+    { label: "Current school", text: "[School Name] — Year [year level]" },
     { label: "Subjects", text: "Currently studying [Subject], [Subject], and [Subject], which have helped me develop skills in..." },
     { label: "Certificates", text: "Completed [Certificate Name] in [Month/Year], gaining skills in..." },
     { label: "Online learning", text: "Completed online courses in [topic] through [platform, e.g. Khan Academy, Coursera]" },
