@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Nunito, Open_Sans } from "next/font/google";
+import { Nunito, Open_Sans, Alex_Brush } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 
@@ -15,6 +15,12 @@ const openSans = Open_Sans({
   variable: "--font-open-sans",
 });
 
+const alexBrush = Alex_Brush({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-script",
+});
+
 export const metadata: Metadata = {
   title: "Resume Ready — Resume & Cover Letter Builder for Students",
   description:
@@ -25,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} ${openSans.variable} antialiased bg-gray-50 min-h-screen flex flex-col`}
+        className={`${nunito.variable} ${openSans.variable} ${alexBrush.variable} antialiased bg-gray-50 min-h-screen flex flex-col`}
         style={{ fontFamily: "var(--font-open-sans), sans-serif" }}
       >
         <Header />

@@ -1,4 +1,8 @@
-export type ResumeTemplateId = "classic" | "modern" | "minimal";
+export type ResumeTemplateId = "classic" | "modern" | "minimal" | "elegant" | "executive" | "bold";
+
+/** "styled" = shared single-column renderer (font/colour/header variations only).
+ *  Anything else names a fully custom layout component. */
+export type ResumeLayout = "styled" | "elegant" | "executive" | "bold";
 
 export interface ResumeTemplateStyle {
   id: ResumeTemplateId;
@@ -6,6 +10,7 @@ export interface ResumeTemplateStyle {
   description: string;
   /** Small colour swatch used to represent the template in the picker UI. */
   swatch: string;
+  layout: ResumeLayout;
   headerAlign: "center" | "left";
   sectionStyle: "underline" | "bar" | "plain";
   fonts: {
@@ -30,6 +35,7 @@ export const resumeTemplates: ResumeTemplateStyle[] = [
     name: "Classic",
     description: "Traditional serif layout with a centred header. Safe, professional, works everywhere.",
     swatch: "#3d2c8d",
+    layout: "styled",
     headerAlign: "center",
     sectionStyle: "underline",
     fonts: {
@@ -45,6 +51,7 @@ export const resumeTemplates: ResumeTemplateStyle[] = [
     name: "Modern",
     description: "Clean sans-serif with a bold colour accent. A bit more contemporary.",
     swatch: "#0d9488",
+    layout: "styled",
     headerAlign: "left",
     sectionStyle: "bar",
     fonts: {
@@ -60,6 +67,7 @@ export const resumeTemplates: ResumeTemplateStyle[] = [
     name: "Minimal",
     description: "Understated black-and-white layout with lots of whitespace. Great for printing.",
     swatch: "#9ca3af",
+    layout: "styled",
     headerAlign: "left",
     sectionStyle: "plain",
     fonts: {
@@ -69,6 +77,54 @@ export const resumeTemplates: ResumeTemplateStyle[] = [
       cssBody: "'Segoe UI', Arial, Helvetica, sans-serif",
     },
     colors: { heading: "#111827", accent: "#9ca3af", muted: "#6b7280" },
+  },
+  {
+    id: "elegant",
+    name: "Elegant",
+    description: "A signature-style name, soft dividers, and a two-column layout with a sidebar.",
+    swatch: "#111827",
+    layout: "elegant",
+    headerAlign: "center",
+    sectionStyle: "plain",
+    fonts: {
+      pdfBody: "Times-Roman",
+      pdfBold: "Times-Bold",
+      docxBody: "Georgia",
+      cssBody: "Georgia, 'Times New Roman', serif",
+    },
+    colors: { heading: "#111827", accent: "#374151", muted: "#6b7280" },
+  },
+  {
+    id: "executive",
+    name: "Executive",
+    description: "A bold statement name, an italic summary, and skills shown as tags in the sidebar.",
+    swatch: "#1f2937",
+    layout: "executive",
+    headerAlign: "center",
+    sectionStyle: "underline",
+    fonts: {
+      pdfBody: "Times-Roman",
+      pdfBold: "Times-Bold",
+      docxBody: "Georgia",
+      cssBody: "Georgia, 'Times New Roman', serif",
+    },
+    colors: { heading: "#111827", accent: "#9ca3af", muted: "#6b7280" },
+  },
+  {
+    id: "bold",
+    name: "Bold",
+    description: "An oversized name and full-width grey section banners. Confident and easy to scan.",
+    swatch: "#000000",
+    layout: "bold",
+    headerAlign: "left",
+    sectionStyle: "plain",
+    fonts: {
+      pdfBody: "Helvetica",
+      pdfBold: "Helvetica-Bold",
+      docxBody: "Calibri",
+      cssBody: "'Segoe UI', Arial, Helvetica, sans-serif",
+    },
+    colors: { heading: "#111827", accent: "#111827", muted: "#6b7280" },
   },
 ];
 
