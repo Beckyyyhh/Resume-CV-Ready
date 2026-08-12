@@ -39,7 +39,7 @@ function buildStyles(template: ResumeTemplateStyle) {
       textAlign: template.headerAlign,
       fontSize: 9,
       color: template.colors.muted,
-      marginTop: 4,
+      marginTop: 8,
       marginBottom: 14,
     },
     sectionTitle,

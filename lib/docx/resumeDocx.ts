@@ -70,7 +70,7 @@ export async function buildResumeDocxBlob(data: ResumeData, templateId?: ResumeT
   const children: Paragraph[] = [
     new Paragraph({
       alignment: align,
-      spacing: { after: 40 },
+      spacing: { after: 100 },
       children: [new TextRun({ text: data.fullName || "Your Name", bold: true, size: 40, font: template.fonts.docxBody })],
     }),
     new Paragraph({

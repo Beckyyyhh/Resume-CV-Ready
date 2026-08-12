@@ -71,7 +71,7 @@ export function ResumePreview({ data, templateId }: { data: ResumeData; template
         <p className="text-2xl font-bold tracking-wide" style={{ color: "#1a1a2e" }}>
           {data.fullName || "Your Name"}
         </p>
-        <p className="text-xs mt-1" style={{ color: template.colors.muted }}>
+        <p className="text-xs mt-2" style={{ color: template.colors.muted }}>
           {[data.phone, data.email, data.suburbState].filter(Boolean).join("  |  ") || "Phone  |  Email  |  Suburb, State"}
         </p>
       </div>
