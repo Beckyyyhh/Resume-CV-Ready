@@ -7,6 +7,7 @@ import { StepNav } from "@/components/wizard/StepNav";
 import { WizardLayout } from "@/components/wizard/WizardLayout";
 import { ResumePreview } from "@/components/preview/ResumePreview";
 import { ExampleModal } from "@/components/wizard/ExampleModal";
+import { A4PrintPreviewButton } from "@/components/wizard/A4PrintPreview";
 import { TemplatePicker } from "@/components/wizard/TemplatePicker";
 import { IntroStep } from "@/components/resume-steps/IntroStep";
 import { ContactStep } from "@/components/resume-steps/ContactStep";
@@ -144,6 +145,9 @@ export default function ResumeBuilderPage() {
           <ExampleModal buttonLabel="View example" title="Example resume — Jessica Taylor">
             <ResumePreview data={exampleResume} templateId={templateId} />
           </ExampleModal>
+          <A4PrintPreviewButton title="Print Preview — your resume">
+            <ResumePreview data={data} templateId={templateId} />
+          </A4PrintPreviewButton>
           <button
             type="button"
             onClick={startOver}

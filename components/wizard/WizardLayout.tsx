@@ -34,8 +34,8 @@ export function WizardLayout({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
-        <div className={mobileView === "preview" ? "hidden lg:block" : ""}>{main}</div>
-        <div className={`lg:sticky lg:top-28 ${mobileView === "edit" ? "hidden lg:block" : ""}`}>{preview}</div>
+        <div className={`min-w-0 ${mobileView === "preview" ? "hidden lg:block" : ""}`}>{main}</div>
+        <div className={`min-w-0 lg:sticky lg:top-28 ${mobileView === "edit" ? "hidden lg:block" : ""}`}>{preview}</div>
       </div>
     </div>
   );

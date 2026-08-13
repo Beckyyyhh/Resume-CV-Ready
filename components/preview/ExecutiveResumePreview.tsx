@@ -30,7 +30,7 @@ export function ExecutiveResumePreview({ data }: { data: ResumeData }) {
   return (
     <div
       id="resume-preview-surface"
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words"
       style={{ fontFamily: "Georgia, 'Times New Roman', serif", width: "100%", maxWidth: 720, fontSize: 12, lineHeight: 1.5 }}
     >
       <div className="text-center">
@@ -50,15 +50,15 @@ export function ExecutiveResumePreview({ data }: { data: ResumeData }) {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-[1.6fr_1fr] gap-7 mt-4">
-        <div>
+        <div className="min-w-0">
           {data.employment.length > 0 && (
             <>
               <Heading>Professional Experience</Heading>
               <div className="space-y-3">
                 {data.employment.map((job) => (
-                  <div key={job.id}>
+                  <div key={job.id} className="min-w-0">
                     <div className="flex items-baseline justify-between gap-3">
-                      <p className="font-bold text-[13px]">{job.role}</p>
+                      <p className="font-bold text-[13px] min-w-0 break-words">{job.role}</p>
                       {job.dates && (
                         <p className="text-[10.5px] shrink-0" style={{ color: "#6b7280" }}>
                           {job.dates}
@@ -82,7 +82,7 @@ export function ExecutiveResumePreview({ data }: { data: ResumeData }) {
           )}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 min-w-0">
           {anyEducation && (
             <div>
               <Heading>Education</Heading>

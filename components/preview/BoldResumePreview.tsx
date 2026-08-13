@@ -21,10 +21,10 @@ function LabelContentRow({
 }) {
   return (
     <div className="flex gap-4 mb-4">
-      <div className="w-[26%] shrink-0 text-[11px]" style={{ color: "#6b7280" }}>
+      <div className="w-[26%] shrink-0 min-w-0 break-words text-[11px]" style={{ color: "#6b7280" }}>
         {label}
       </div>
-      <div className="flex-1 text-[12px]">{children}</div>
+      <div className="flex-1 min-w-0 break-words text-[12px]">{children}</div>
     </div>
   );
 }
@@ -39,14 +39,14 @@ export function BoldResumePreview({ data }: { data: ResumeData }) {
   return (
     <div
       id="resume-preview-surface"
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words"
       style={{ fontFamily: "'Segoe UI', Arial, Helvetica, sans-serif", width: "100%", maxWidth: 720, fontSize: 12, lineHeight: 1.5 }}
     >
       <div className="flex items-start justify-between gap-4 mb-6">
-        <p className="text-[26px] font-extrabold leading-tight" style={{ color: "#111827" }}>
+        <p className="text-[26px] font-extrabold leading-tight min-w-0 break-words" style={{ color: "#111827" }}>
           {data.fullName || "Your Name"}
         </p>
-        <div className="text-right text-[11px] shrink-0" style={{ color: "#4b5563" }}>
+        <div className="text-right text-[11px] shrink-0 min-w-0 break-words" style={{ color: "#4b5563" }}>
           {data.phone && <p>{data.phone}</p>}
           {data.email && <p>{data.email}</p>}
           {data.suburbState && <p>{data.suburbState}</p>}

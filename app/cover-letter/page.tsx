@@ -7,6 +7,7 @@ import { StepNav } from "@/components/wizard/StepNav";
 import { WizardLayout } from "@/components/wizard/WizardLayout";
 import { CoverLetterPreview } from "@/components/preview/CoverLetterPreview";
 import { ExampleModal } from "@/components/wizard/ExampleModal";
+import { A4PrintPreviewButton } from "@/components/wizard/A4PrintPreview";
 import { IntroStep } from "@/components/cover-letter-steps/IntroStep";
 import { DetailsStep } from "@/components/cover-letter-steps/DetailsStep";
 import { ParagraphStep } from "@/components/cover-letter-steps/ParagraphStep";
@@ -149,6 +150,9 @@ export default function CoverLetterBuilderPage() {
           <ExampleModal buttonLabel="View example" title="Example cover letter — Jessica Taylor">
             <CoverLetterPreview data={exampleCoverLetter} />
           </ExampleModal>
+          <A4PrintPreviewButton title="Print Preview — your cover letter">
+            <CoverLetterPreview data={data} />
+          </A4PrintPreviewButton>
           <button
             type="button"
             onClick={startOver}

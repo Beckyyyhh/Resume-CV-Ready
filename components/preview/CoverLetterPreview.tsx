@@ -7,7 +7,7 @@ export function CoverLetterPreview({ data }: { data: CoverLetterData }) {
 
   return (
     <div
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words"
       style={{ fontFamily: "Georgia, 'Times New Roman', serif", width: "100%", maxWidth: 720, fontSize: 12.5, lineHeight: 1.6 }}
     >
       <p className="font-bold">{data.fullName || "Your Name"}</p>

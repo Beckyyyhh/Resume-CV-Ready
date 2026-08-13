@@ -32,7 +32,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
   return (
     <div
       id="resume-preview-surface"
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words"
       style={{ fontFamily: "Georgia, 'Times New Roman', serif", width: "100%", maxWidth: 720, fontSize: 12, lineHeight: 1.45 }}
     >
       <div className="text-center">
@@ -56,7 +56,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
       {data.personalStatement && (
         <>
           <Heading>Summary</Heading>
-          <p className="text-[12px]">
+          <p className="text-[12px] break-words">
             <HighlightPlaceholders text={data.personalStatement} />
           </p>
           <Divider />
@@ -64,22 +64,25 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.9fr] gap-6">
-        <div className="sm:border-r sm:pr-5" style={{ borderColor: "#d1d5db" }}>
+        <div className="min-w-0 sm:border-r sm:pr-5" style={{ borderColor: "#d1d5db" }}>
           <Heading>Contact</Heading>
           <div className="space-y-1.5 text-[11.5px]">
             {data.phone && (
-              <p className="flex items-center gap-2">
-                <Phone size={12} style={{ color: "#6b7280" }} /> {data.phone}
+              <p className="flex items-center gap-2 min-w-0">
+                <Phone size={12} className="shrink-0" style={{ color: "#6b7280" }} />
+                <span className="min-w-0 break-words">{data.phone}</span>
               </p>
             )}
             {data.email && (
-              <p className="flex items-center gap-2">
-                <Mail size={12} style={{ color: "#6b7280" }} /> {data.email}
+              <p className="flex items-center gap-2 min-w-0">
+                <Mail size={12} className="shrink-0" style={{ color: "#6b7280" }} />
+                <span className="min-w-0 break-words">{data.email}</span>
               </p>
             )}
             {data.suburbState && (
-              <p className="flex items-center gap-2">
-                <MapPin size={12} style={{ color: "#6b7280" }} /> {data.suburbState}
+              <p className="flex items-center gap-2 min-w-0">
+                <MapPin size={12} className="shrink-0" style={{ color: "#6b7280" }} />
+                <span className="min-w-0 break-words">{data.suburbState}</span>
               </p>
             )}
           </div>
@@ -88,7 +91,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
             <>
               <Divider />
               <Heading>Education</Heading>
-              <div className="text-[11.5px] space-y-1">
+              <div className="text-[11.5px] space-y-1 break-words">
                 {(data.currentSchool || data.yearsAttended) && (
                   <p className="font-semibold">{data.currentSchool}</p>
                 )}
@@ -119,7 +122,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
               {skillLines.length > 0 && (
                 <>
                   <Heading>Skills</Heading>
-                  <ul className="text-[11.5px] space-y-1 mb-3">
+                  <ul className="text-[11.5px] space-y-1 mb-3 break-words">
                     {skillLines.map(([label, value]) => (
                       <li key={label}>
                         <span style={{ color: "#6b7280" }}>{label}: </span>
@@ -132,7 +135,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
               {data.personalQualities.length > 0 && (
                 <>
                   <Heading>Personal Qualities</Heading>
-                  <ul className="text-[11.5px] list-disc pl-4 space-y-1">
+                  <ul className="text-[11.5px] list-disc pl-4 space-y-1 break-words">
                     {data.personalQualities.map((q, i) => (
                       <li key={i}>
                         <HighlightPlaceholders text={q} />
@@ -145,24 +148,24 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
           )}
         </div>
 
-        <div>
+        <div className="min-w-0">
           {data.employment.length > 0 && (
             <>
               <Heading>Experience</Heading>
               <div className="space-y-3 mb-1">
                 {data.employment.map((job) => (
-                  <div key={job.id}>
+                  <div key={job.id} className="min-w-0">
                     <div className="flex items-baseline justify-between gap-3">
-                      <p className="font-semibold text-[12.5px]">{job.role}</p>
+                      <p className="font-semibold text-[12.5px] min-w-0 break-words">{job.role}</p>
                       {job.dates && (
                         <p className="text-[11px] shrink-0" style={{ color: "#6b7280" }}>
                           {job.dates}
                         </p>
                       )}
                     </div>
-                    {job.organisation && <p className="text-[11.5px] italic">{job.organisation}</p>}
+                    {job.organisation && <p className="text-[11.5px] italic break-words">{job.organisation}</p>}
                     {job.bullets.length > 0 && (
-                      <ul className="list-disc pl-4 space-y-0.5 mt-1 text-[11.5px]">
+                      <ul className="list-disc pl-4 space-y-0.5 mt-1 text-[11.5px] break-words">
                         {job.bullets.map((b, i) => (
                           <li key={i}>
                             <HighlightPlaceholders text={b} />
@@ -179,7 +182,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
           {data.achievements.length > 0 && (
             <div className="mt-4">
               <Heading>Achievements</Heading>
-              <ul className="list-disc pl-4 space-y-0.5 text-[11.5px]">
+              <ul className="list-disc pl-4 space-y-0.5 text-[11.5px] break-words">
                 {data.achievements.map((a, i) => (
                   <li key={i}>
                     <HighlightPlaceholders text={a} />
@@ -192,7 +195,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
           {data.hobbies && (
             <div className="mt-4">
               <Heading>Hobbies and Interests</Heading>
-              <p className="text-[11.5px]">
+              <p className="text-[11.5px] break-words">
                 <HighlightPlaceholders text={data.hobbies} />
               </p>
             </div>
@@ -203,7 +206,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
               <Heading>References</Heading>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11.5px]">
                 {data.referees.map((r) => (
-                  <div key={r.id}>
+                  <div key={r.id} className="min-w-0 break-words">
                     <p className="font-semibold">{r.name}</p>
                     {r.role && <p style={{ color: "#6b7280" }}>{r.role}</p>}
                     {r.organisation && <p style={{ color: "#6b7280" }}>{r.organisation}</p>}

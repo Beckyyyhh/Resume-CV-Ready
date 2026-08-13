@@ -36,9 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{ fontFamily: "var(--font-open-sans), sans-serif" }}
       >
         <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 w-full flex-1">{children}</main>
+        <main className="max-w-6xl mx-auto px-6 sm:px-12 lg:px-20 py-6 w-full flex-1">{children}</main>
         <footer className="border-t border-gray-200 py-6 mt-10 no-print">
-          <p className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 text-xs text-gray-500">
+          <p className="max-w-6xl mx-auto px-6 sm:px-12 lg:px-20 text-xs text-gray-500">
             Everything you type stays in your own browser — nothing is uploaded or saved to a server.
           </p>
         </footer>

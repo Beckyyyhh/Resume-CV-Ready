@@ -63,7 +63,7 @@ export function StyledResumePreview({ data, template }: { data: ResumeData; temp
   return (
     <div
       id="resume-preview-surface"
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words"
       style={{ fontFamily: template.fonts.cssBody, width: "100%", maxWidth: 720, fontSize: 12.5, lineHeight: 1.45 }}
     >
       <div className={`mb-4 ${template.headerAlign === "center" ? "text-center" : "text-left"}`}>
@@ -211,7 +211,7 @@ export function StyledResumePreview({ data, template }: { data: ResumeData; temp
         <Section title="Referees" template={template}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {data.referees.map((r) => (
-              <div key={r.id}>
+              <div key={r.id} className="min-w-0 break-words">
                 <p className="font-semibold">{r.name}</p>
                 {r.role && <p>{r.role}</p>}
                 {r.organisation && <p>{r.organisation}</p>}
