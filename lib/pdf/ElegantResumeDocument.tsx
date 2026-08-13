@@ -1,7 +1,6 @@
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
 import type { ResumeData } from "@/lib/types";
 
-Font.register({ family: "AlexBrush", src: "/fonts/AlexBrush-Regular.ttf" });
 // Disable automatic hyphenation — otherwise narrow columns can break proper
 // nouns mid-word (e.g. "Melbourne" -> "Mel-bourne").
 Font.registerHyphenationCallback((word) => [word]);
@@ -17,8 +16,8 @@ const styles = StyleSheet.create({
     color: "#1a1a2e",
   },
   name: {
-    fontFamily: "AlexBrush",
-    fontSize: 40,
+    fontFamily: "Times-BoldItalic",
+    fontSize: 28,
     textAlign: "center",
     color: "#111827",
   },

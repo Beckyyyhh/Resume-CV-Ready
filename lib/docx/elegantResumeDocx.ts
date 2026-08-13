@@ -14,7 +14,7 @@ import type { ResumeData } from "@/lib/types";
 
 const BODY_SIZE = 20; // 10pt
 const FONT = "Georgia";
-const NAME_FONT = "Segoe Script";
+const NAME_FONT = "Georgia";
 const MUTED = "6B7280";
 const RULE_COLOR = "D1D5DB";
 
@@ -84,7 +84,9 @@ export async function buildElegantResumeDocxBlob(data: ResumeData): Promise<Blob
     new Paragraph({
       alignment: AlignmentType.CENTER,
       spacing: { after: 40 },
-      children: [new TextRun({ text: data.fullName || "Your Name", size: 72, font: NAME_FONT })],
+      children: [
+        new TextRun({ text: data.fullName || "Your Name", size: 56, bold: true, italics: true, font: NAME_FONT }),
+      ],
     }),
     rule(),
   ];

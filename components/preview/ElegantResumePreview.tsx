@@ -32,12 +32,20 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
   return (
     <div
       id="resume-preview-surface"
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
       style={{ fontFamily: "Georgia, 'Times New Roman', serif", width: "100%", maxWidth: 720, fontSize: 12, lineHeight: 1.45 }}
     >
       <div className="text-center">
         <p
-          style={{ fontFamily: "var(--font-script), cursive", fontSize: 44, lineHeight: 1.1, color: "#111827" }}
+          className="break-words"
+          style={{
+            fontFamily: "var(--font-elegant), 'Playfair Display', Georgia, serif",
+            fontStyle: "italic",
+            fontWeight: 700,
+            fontSize: 34,
+            lineHeight: 1.2,
+            color: "#111827",
+          }}
         >
           {data.fullName || "Your Name"}
         </p>

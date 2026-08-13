@@ -63,7 +63,7 @@ export function StyledResumePreview({ data, template }: { data: ResumeData; temp
   return (
     <div
       id="resume-preview-surface"
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
       style={{ fontFamily: template.fonts.cssBody, width: "100%", maxWidth: 720, fontSize: 12.5, lineHeight: 1.45 }}
     >
       <div className={`mb-4 ${template.headerAlign === "center" ? "text-center" : "text-left"}`}>

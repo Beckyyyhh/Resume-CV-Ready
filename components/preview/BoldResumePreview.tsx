@@ -39,7 +39,7 @@ export function BoldResumePreview({ data }: { data: ResumeData }) {
   return (
     <div
       id="resume-preview-surface"
-      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto"
+      className="bg-white text-[#1a1a2e] p-8 shadow-sm border border-gray-200 rounded-xl mx-auto break-words overflow-hidden"
       style={{ fontFamily: "'Segoe UI', Arial, Helvetica, sans-serif", width: "100%", maxWidth: 720, fontSize: 12, lineHeight: 1.5 }}
     >
       <div className="flex items-start justify-between gap-4 mb-6">

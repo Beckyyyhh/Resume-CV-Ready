@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Nunito, Open_Sans, Alex_Brush } from "next/font/google";
+import { Nunito, Open_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 
@@ -15,10 +15,11 @@ const openSans = Open_Sans({
   variable: "--font-open-sans",
 });
 
-const alexBrush = Alex_Brush({
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-script",
+  weight: "700",
+  style: ["italic"],
+  variable: "--font-elegant",
 });
 
 export const metadata: Metadata = {
@@ -31,13 +32,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} ${openSans.variable} ${alexBrush.variable} antialiased bg-gray-50 min-h-screen flex flex-col`}
+        className={`${nunito.variable} ${openSans.variable} ${playfairDisplay.variable} antialiased bg-gray-50 min-h-screen flex flex-col`}
         style={{ fontFamily: "var(--font-open-sans), sans-serif" }}
       >
         <Header />
-        <main className="max-w-7xl mx-auto px-4 py-6 w-full flex-1">{children}</main>
+        <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 w-full flex-1">{children}</main>
         <footer className="border-t border-gray-200 py-6 mt-10 no-print">
-          <p className="max-w-7xl mx-auto px-4 text-xs text-gray-500">
+          <p className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 text-xs text-gray-500">
             Everything you type stays in your own browser — nothing is uploaded or saved to a server.
           </p>
         </footer>

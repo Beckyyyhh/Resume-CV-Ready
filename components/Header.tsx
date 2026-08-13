@@ -5,7 +5,7 @@ import { NavTabs } from "./NavTabs";
 export function Header() {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-30">
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4 h-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between gap-4 h-24">
         <Link href="/" className="flex items-center gap-3">
           <span
             className="flex items-center justify-center rounded-xl"

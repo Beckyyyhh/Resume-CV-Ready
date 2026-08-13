@@ -14,7 +14,7 @@ export function NavTabs() {
 
   return (
     <nav style={{ backgroundColor: "#3d2c8d" }}>
-      <div className="max-w-7xl mx-auto px-4 flex items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center">
         {tabs.map((tab) => {
           const active = tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
           return (
