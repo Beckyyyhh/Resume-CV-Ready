@@ -39,7 +39,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="max-w-6xl mx-auto px-6 sm:px-12 lg:px-20 py-6 w-full flex-1">{children}</main>
         <footer className="border-t border-gray-200 py-6 mt-10 no-print">
           <p className="max-w-6xl mx-auto px-6 sm:px-12 lg:px-20 text-xs text-gray-500">
-            Everything you type stays in your own browser — nothing is uploaded or saved to a server.
+            Everything you type stays in your own browser and is never saved to a server — the only exception is
+            if you choose to email yourself a copy, which sends your finished document once, on request.
           </p>
         </footer>
       </body>

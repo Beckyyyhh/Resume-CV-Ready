@@ -3,15 +3,18 @@
 import { useState } from "react";
 import { Check, Download, FileText, FileType } from "lucide-react";
 import { coverLetterChecklist } from "@/lib/content";
+import { EmailDeliveryForm } from "@/components/wizard/EmailDeliveryForm";
 
 export function ReviewStep({
   onDownloadPdf,
   onDownloadDocx,
+  onEmailSend,
   pdfLoading,
   docxLoading,
 }: {
   onDownloadPdf: () => void;
   onDownloadDocx: () => void;
+  onEmailSend: (email: string) => Promise<void>;
   pdfLoading: boolean;
   docxLoading: boolean;
 }) {
@@ -88,6 +91,8 @@ export function ReviewStep({
           </button>
         </div>
       </div>
+
+      <EmailDeliveryForm onSend={onEmailSend} />
     </div>
   );
 }

@@ -24,6 +24,7 @@ import { useLocalStorageState, clearLocalStorageState } from "@/lib/useLocalStor
 import { emptyResumeData, type ResumeData } from "@/lib/types";
 import { exampleResume } from "@/lib/content";
 import { downloadResumePdf, downloadResumeDocx } from "@/lib/downloads";
+import { emailResume } from "@/lib/email";
 import { DEFAULT_RESUME_TEMPLATE, type ResumeTemplateId } from "@/lib/templates";
 
 const STORAGE_KEY = "resume-builder-data-v1";
@@ -80,6 +81,10 @@ export default function ResumeBuilderPage() {
     }
   }
 
+  async function handleEmailSend(email: string) {
+    await emailResume(data, templateId, email);
+  }
+
   function startOver() {
     if (!window.confirm("This will clear everything you've entered. Are you sure?")) return;
     clearLocalStorageState(STORAGE_KEY);
@@ -126,6 +131,7 @@ export default function ResumeBuilderPage() {
         <ReviewStep
           onDownloadPdf={handleDownloadPdf}
           onDownloadDocx={handleDownloadDocx}
+          onEmailSend={handleEmailSend}
           pdfLoading={pdfLoading}
           docxLoading={docxLoading}
         />

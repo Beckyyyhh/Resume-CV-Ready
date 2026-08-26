@@ -16,6 +16,7 @@ import { useLocalStorageState, clearLocalStorageState } from "@/lib/useLocalStor
 import { emptyCoverLetterData, type CoverLetterData } from "@/lib/types";
 import { clOpeningStep, clFitStep, clCompanyStep, clSignOffStep, exampleCoverLetter } from "@/lib/content";
 import { downloadCoverLetterPdf, downloadCoverLetterDocx } from "@/lib/downloads";
+import { emailCoverLetter } from "@/lib/email";
 
 const STORAGE_KEY = "cover-letter-builder-data-v1";
 
@@ -63,6 +64,10 @@ export default function CoverLetterBuilderPage() {
     } finally {
       setDocxLoading(false);
     }
+  }
+
+  async function handleEmailSend(email: string) {
+    await emailCoverLetter(data, email);
   }
 
   function startOver() {
@@ -129,6 +134,7 @@ export default function CoverLetterBuilderPage() {
         <ReviewStep
           onDownloadPdf={handleDownloadPdf}
           onDownloadDocx={handleDownloadDocx}
+          onEmailSend={handleEmailSend}
           pdfLoading={pdfLoading}
           docxLoading={docxLoading}
         />
