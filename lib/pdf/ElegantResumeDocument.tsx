@@ -73,7 +73,7 @@ export function ElegantResumeDocument({ data }: { data: ResumeData }) {
       ["Digital", data.skillsDigital],
       ["Communication", data.skillsCommunication],
       ["Languages", data.skillsLanguages],
-      ["Organisational", data.skillsOther],
+      ["Other", data.skillsOther],
       ["Licences", data.skillsCertificates],
     ] as [string, string][]
   ).filter(([, v]) => v);

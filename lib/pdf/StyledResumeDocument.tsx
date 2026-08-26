@@ -175,7 +175,7 @@ export function StyledResumeDocument({ data, template }: { data: ResumeData; tem
             )}
             {data.skillsOther && (
               <Text>
-                <Text style={styles.bold}>Organisational: </Text>
+                <Text style={styles.bold}>Other: </Text>
                 {data.skillsOther}
               </Text>
             )}

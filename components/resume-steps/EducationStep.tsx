@@ -10,7 +10,6 @@ function appendText(current: string, addition: string) {
 }
 
 const STARTER_TARGET: Record<string, keyof ResumeData> = {
-  "Current school": "currentSchool",
   Subjects: "subjects",
   Certificates: "certificates",
   "Online learning": "certificates",

@@ -128,7 +128,7 @@ export async function buildStyledResumeDocxBlob(data: ResumeData, template: Resu
       ["Digital", data.skillsDigital],
       ["Communication", data.skillsCommunication],
       ["Languages", data.skillsLanguages],
-      ["Organisational", data.skillsOther],
+      ["Other", data.skillsOther],
       ["Licences/Certificates", data.skillsCertificates],
     ];
     skillLines

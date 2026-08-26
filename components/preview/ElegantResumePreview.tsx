@@ -25,7 +25,7 @@ export function ElegantResumePreview({ data }: { data: ResumeData }) {
     ["Digital", data.skillsDigital],
     ["Communication", data.skillsCommunication],
     ["Languages", data.skillsLanguages],
-    ["Organisational", data.skillsOther],
+    ["Other", data.skillsOther],
     ["Licences", data.skillsCertificates],
   ].filter(([, v]) => v) as [string, string][];
 

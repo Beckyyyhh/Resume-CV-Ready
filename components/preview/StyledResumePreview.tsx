@@ -173,7 +173,7 @@ export function StyledResumePreview({ data, template }: { data: ResumeData; temp
             )}
             {data.skillsOther && (
               <li>
-                <span className="font-semibold">Organisational: </span>
+                <span className="font-semibold">Other: </span>
                 <HighlightPlaceholders text={data.skillsOther} />
               </li>
             )}

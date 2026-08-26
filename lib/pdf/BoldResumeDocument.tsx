@@ -155,7 +155,7 @@ export function BoldResumeDocument({ data }: { data: ResumeData }) {
             )}
             {data.skillsOther && (
               <Text style={{ marginBottom: 3 }}>
-                <Text style={styles.bold}>Organisational: </Text>
+                <Text style={styles.bold}>Other: </Text>
                 {data.skillsOther}
               </Text>
             )}

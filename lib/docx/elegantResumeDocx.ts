@@ -75,7 +75,7 @@ export async function buildElegantResumeDocxBlob(data: ResumeData): Promise<Blob
       ["Digital", data.skillsDigital],
       ["Communication", data.skillsCommunication],
       ["Languages", data.skillsLanguages],
-      ["Organisational", data.skillsOther],
+      ["Other", data.skillsOther],
       ["Licences", data.skillsCertificates],
     ] as [string, string][]
   ).filter(([, v]) => v);

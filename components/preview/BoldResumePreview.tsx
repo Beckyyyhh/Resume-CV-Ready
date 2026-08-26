@@ -145,7 +145,7 @@ export function BoldResumePreview({ data }: { data: ResumeData }) {
             )}
             {data.skillsOther && (
               <li>
-                <span className="font-semibold">Organisational: </span>
+                <span className="font-semibold">Other: </span>
                 <HighlightPlaceholders text={data.skillsOther} />
               </li>
             )}

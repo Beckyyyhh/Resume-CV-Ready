@@ -173,7 +173,7 @@ export async function buildBoldResumeDocxBlob(data: ResumeData): Promise<Blob> {
       ["Digital", data.skillsDigital],
       ["Communication", data.skillsCommunication],
       ["Languages", data.skillsLanguages],
-      ["Organisational", data.skillsOther],
+      ["Other", data.skillsOther],
       ["Licences/Certificates", data.skillsCertificates],
     ];
     skillLines
