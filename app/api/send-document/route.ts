@@ -1,6 +1,6 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-// Needs Node's Buffer + the Resend SDK, so pin this to the Node runtime
+// Needs Node's Buffer + nodemailer, so pin this to the Node runtime
 // rather than the (default-on-Vercel) Edge runtime.
 export const runtime = "nodejs";
 
@@ -8,9 +8,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024; // generous cap; a resume PDF/DOCX is a few hundred KB
 
 export async function POST(request: Request) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error("RESEND_API_KEY is not configured");
+  const gmailUser = process.env.GMAIL_USER;
+  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
+  if (!gmailUser || !gmailAppPassword) {
+    console.error("GMAIL_USER / GMAIL_APP_PASSWORD is not configured");
     return Response.json(
       { error: "Email delivery isn't set up on this deployment yet. Please use the download buttons instead." },
       { status: 500 }
@@ -52,9 +53,13 @@ export async function POST(request: Request) {
       docxFile.arrayBuffer().then(Buffer.from),
     ]);
 
-    const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
-      from: "Resume Ready <onboarding@resend.dev>",
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: { user: gmailUser, pass: gmailAppPassword },
+    });
+
+    await transporter.sendMail({
+      from: `Resume Ready <${gmailUser}>`,
       to: email,
       subject: `Your ${label} from Resume Ready`,
       html: `
@@ -68,11 +73,6 @@ export async function POST(request: Request) {
         { filename: docxFile.name || `${label}.docx`, content: docxBuffer },
       ],
     });
-
-    if (error) {
-      console.error("Resend error:", error);
-      return Response.json({ error: "Something went wrong sending the email. Please try again." }, { status: 502 });
-    }
 
     return Response.json({ ok: true });
   } catch (err) {
