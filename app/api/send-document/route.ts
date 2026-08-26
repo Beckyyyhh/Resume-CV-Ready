@@ -66,7 +66,7 @@ export async function POST(request: Request) {
         <p>Hi ${nameForGreeting},</p>
         <p>Here's your finished ${label} — attached as both a PDF and a Word document, so you can use whichever one you need.</p>
         <p>Good luck with your application!</p>
-        <p>— Resume Ready</p>
+        <p>— CVHS Careers team</p>
       `,
       attachments: [
         { filename: pdfFile.name || `${label}.pdf`, content: pdfBuffer },
