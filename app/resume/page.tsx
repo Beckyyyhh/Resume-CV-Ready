@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { RotateCcw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { RotateCcw, X, CheckCircle2 } from "lucide-react";
 import { StepProgress } from "@/components/wizard/StepProgress";
 import { StepNav } from "@/components/wizard/StepNav";
 import { WizardLayout } from "@/components/wizard/WizardLayout";
 import { ResumePreview } from "@/components/preview/ResumePreview";
 import { ExampleModal } from "@/components/wizard/ExampleModal";
 import { A4PrintPreviewButton } from "@/components/wizard/A4PrintPreview";
+import { ContinueLaterButton } from "@/components/wizard/ContinueLaterButton";
 import { TemplatePicker } from "@/components/wizard/TemplatePicker";
 import { IntroStep } from "@/components/resume-steps/IntroStep";
 import { ContactStep } from "@/components/resume-steps/ContactStep";
@@ -24,8 +25,9 @@ import { useLocalStorageState, clearLocalStorageState } from "@/lib/useLocalStor
 import { emptyResumeData, type ResumeData } from "@/lib/types";
 import { exampleResume } from "@/lib/content";
 import { downloadResumePdf, downloadResumeDocx } from "@/lib/downloads";
-import { emailResume } from "@/lib/email";
-import { DEFAULT_RESUME_TEMPLATE, type ResumeTemplateId } from "@/lib/templates";
+import { emailResume, emailContinueLink } from "@/lib/email";
+import { encodeContinueState, decodeContinueState } from "@/lib/continueLink";
+import { DEFAULT_RESUME_TEMPLATE, resumeTemplates, type ResumeTemplateId } from "@/lib/templates";
 
 const STORAGE_KEY = "resume-builder-data-v1";
 const TEMPLATE_STORAGE_KEY = "resume-builder-template-v1";
@@ -53,6 +55,33 @@ export default function ResumeBuilderPage() {
   const [step, setStep] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [docxLoading, setDocxLoading] = useState(false);
+  const [restoredFromLink, setRestoredFromLink] = useState(false);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const hash = window.location.hash;
+    if (!hash.includes("continue=")) return;
+
+    const params = new URLSearchParams(hash.replace(/^#/, ""));
+    const encoded = params.get("continue");
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    if (!encoded) return;
+
+    const decoded = decodeContinueState<{
+      v: number;
+      step: number;
+      templateId: ResumeTemplateId;
+      data: ResumeData;
+    }>(encoded);
+    if (!decoded || !decoded.data) return;
+
+    setData(decoded.data);
+    if (resumeTemplates.some((t) => t.id === decoded.templateId)) {
+      setTemplateId(decoded.templateId);
+    }
+    setStep(Math.max(0, Math.min(STEP_LABELS.length - 1, decoded.step ?? 0)));
+    setRestoredFromLink(true);
+  }, [hydrated, setData, setTemplateId]);
 
   function patch(p: Partial<ResumeData>) {
     setData((prev) => ({ ...prev, ...p }));
@@ -83,6 +112,11 @@ export default function ResumeBuilderPage() {
 
   async function handleEmailSend(email: string) {
     await emailResume(data, templateId, email);
+  }
+
+  async function handleContinueLinkSend(email: string) {
+    const state = encodeContinueState({ v: 1, step, templateId, data });
+    await emailContinueLink({ email, kind: "resume", fullName: data.fullName, state });
   }
 
   function startOver() {
@@ -154,6 +188,7 @@ export default function ResumeBuilderPage() {
           <A4PrintPreviewButton title="Print Preview — your resume">
             <ResumePreview data={data} templateId={templateId} />
           </A4PrintPreviewButton>
+          <ContinueLaterButton onSend={handleContinueLinkSend} />
           <button
             type="button"
             onClick={startOver}
@@ -163,6 +198,24 @@ export default function ResumeBuilderPage() {
           </button>
         </div>
       </div>
+
+      {restoredFromLink && (
+        <div
+          className="rounded-lg border px-3 py-2 text-sm flex items-center justify-between gap-3"
+          style={{ backgroundColor: "#f0fdf4", borderColor: "#bbf7d0", color: "#166534" }}
+        >
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 size={15} /> Welcome back! We loaded your saved progress from the link.
+          </span>
+          <button
+            type="button"
+            onClick={() => setRestoredFromLink(false)}
+            className="text-green-700 hover:text-green-900 shrink-0"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
 
       <StepProgress labels={STEP_LABELS} currentIndex={step} onJump={goTo} />
 

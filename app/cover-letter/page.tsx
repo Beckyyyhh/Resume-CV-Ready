@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { RotateCcw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { RotateCcw, X, CheckCircle2 } from "lucide-react";
 import { StepProgress } from "@/components/wizard/StepProgress";
 import { StepNav } from "@/components/wizard/StepNav";
 import { WizardLayout } from "@/components/wizard/WizardLayout";
 import { CoverLetterPreview } from "@/components/preview/CoverLetterPreview";
 import { ExampleModal } from "@/components/wizard/ExampleModal";
 import { A4PrintPreviewButton } from "@/components/wizard/A4PrintPreview";
+import { ContinueLaterButton } from "@/components/wizard/ContinueLaterButton";
 import { IntroStep } from "@/components/cover-letter-steps/IntroStep";
 import { DetailsStep } from "@/components/cover-letter-steps/DetailsStep";
 import { ParagraphStep } from "@/components/cover-letter-steps/ParagraphStep";
@@ -16,7 +17,8 @@ import { useLocalStorageState, clearLocalStorageState } from "@/lib/useLocalStor
 import { emptyCoverLetterData, type CoverLetterData } from "@/lib/types";
 import { clOpeningStep, clFitStep, clCompanyStep, clSignOffStep, exampleCoverLetter } from "@/lib/content";
 import { downloadCoverLetterPdf, downloadCoverLetterDocx } from "@/lib/downloads";
-import { emailCoverLetter } from "@/lib/email";
+import { emailCoverLetter, emailContinueLink } from "@/lib/email";
+import { encodeContinueState, decodeContinueState } from "@/lib/continueLink";
 
 const STORAGE_KEY = "cover-letter-builder-data-v1";
 
@@ -38,6 +40,25 @@ export default function CoverLetterBuilderPage() {
   const [step, setStep] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [docxLoading, setDocxLoading] = useState(false);
+  const [restoredFromLink, setRestoredFromLink] = useState(false);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const hash = window.location.hash;
+    if (!hash.includes("continue=")) return;
+
+    const params = new URLSearchParams(hash.replace(/^#/, ""));
+    const encoded = params.get("continue");
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    if (!encoded) return;
+
+    const decoded = decodeContinueState<{ v: number; step: number; data: CoverLetterData }>(encoded);
+    if (!decoded || !decoded.data) return;
+
+    setData(decoded.data);
+    setStep(Math.max(0, Math.min(STEP_LABELS.length - 1, decoded.step ?? 0)));
+    setRestoredFromLink(true);
+  }, [hydrated, setData]);
 
   function patch(p: Partial<CoverLetterData>) {
     setData((prev) => ({ ...prev, ...p }));
@@ -68,6 +89,11 @@ export default function CoverLetterBuilderPage() {
 
   async function handleEmailSend(email: string) {
     await emailCoverLetter(data, email);
+  }
+
+  async function handleContinueLinkSend(email: string) {
+    const state = encodeContinueState({ v: 1, step, data });
+    await emailContinueLink({ email, kind: "cover-letter", fullName: data.fullName, state });
   }
 
   function startOver() {
@@ -159,6 +185,7 @@ export default function CoverLetterBuilderPage() {
           <A4PrintPreviewButton title="Print Preview — your cover letter">
             <CoverLetterPreview data={data} />
           </A4PrintPreviewButton>
+          <ContinueLaterButton onSend={handleContinueLinkSend} />
           <button
             type="button"
             onClick={startOver}
@@ -168,6 +195,24 @@ export default function CoverLetterBuilderPage() {
           </button>
         </div>
       </div>
+
+      {restoredFromLink && (
+        <div
+          className="rounded-lg border px-3 py-2 text-sm flex items-center justify-between gap-3"
+          style={{ backgroundColor: "#f0fdf4", borderColor: "#bbf7d0", color: "#166534" }}
+        >
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 size={15} /> Welcome back! We loaded your saved progress from the link.
+          </span>
+          <button
+            type="button"
+            onClick={() => setRestoredFromLink(false)}
+            className="text-green-700 hover:text-green-900 shrink-0"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
 
       <StepProgress labels={STEP_LABELS} currentIndex={step} onJump={goTo} />
 

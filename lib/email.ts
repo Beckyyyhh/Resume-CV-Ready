@@ -67,3 +67,26 @@ export async function emailCoverLetter(data: CoverLetterData, email: string) {
     baseName: `${filenameSlug(data.fullName, "cover-letter")}-cover-letter`,
   });
 }
+
+export async function emailContinueLink(params: {
+  email: string;
+  kind: "resume" | "cover-letter";
+  fullName: string;
+  state: string;
+}) {
+  let response: Response;
+  try {
+    response = await fetch("/api/send-continue-link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
+    });
+  } catch {
+    throw new EmailSendError("Couldn't reach the server. Check your connection and try again.");
+  }
+
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw new EmailSendError(body.error || "Something went wrong sending the email. Please try again.");
+  }
+}
