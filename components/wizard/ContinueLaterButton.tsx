@@ -74,28 +74,33 @@ export function ContinueLaterButton({ onSend }: { onSend: (email: string) => Pro
 
             {status === "sent" ? (
               <p className="text-sm font-semibold flex items-center gap-1.5" style={{ color: "#15803d" }}>
-                <CheckCircle2 size={16} /> Sent! Check {email} for your link.
+                <CheckCircle2 size={16} /> Sent! Don&apos;t see it in {email} within 5 minutes? Check your spam/junk folder.
               </p>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#a89fe0] focus:border-transparent"
-                />
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="inline-flex items-center justify-center gap-1.5 text-sm font-bold px-4 py-2 rounded-md text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-                  style={{ backgroundColor: "#3d2c8d" }}
-                >
-                  {status === "sending" ? <Loader2 size={15} className="animate-spin" /> : <Mail size={15} />}
-                  {status === "sending" ? "Sending…" : "Send me the link"}
-                </button>
-              </form>
+              <>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#a89fe0] focus:border-transparent"
+                  />
+                  <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className="inline-flex items-center justify-center gap-1.5 text-sm font-bold px-4 py-2 rounded-md text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                    style={{ backgroundColor: "#3d2c8d" }}
+                  >
+                    {status === "sending" ? <Loader2 size={15} className="animate-spin" /> : <Mail size={15} />}
+                    {status === "sending" ? "Sending…" : "Send me the link"}
+                  </button>
+                </form>
+                <p className="text-[11px] text-gray-500 mt-1.5">
+                  Don&apos;t see it within 5 minutes? Check your spam/junk folder.
+                </p>
+              </>
             )}
 
             {status === "error" && <p className="text-xs text-red-600 mt-2">{error}</p>}

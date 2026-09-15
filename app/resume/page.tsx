@@ -75,12 +75,14 @@ export default function ResumeBuilderPage() {
     }>(encoded);
     if (!decoded || !decoded.data) return;
 
-    setData(decoded.data);
-    if (resumeTemplates.some((t) => t.id === decoded.templateId)) {
-      setTemplateId(decoded.templateId);
-    }
-    setStep(Math.max(0, Math.min(STEP_LABELS.length - 1, decoded.step ?? 0)));
-    setRestoredFromLink(true);
+    queueMicrotask(() => {
+      setData(decoded.data);
+      if (resumeTemplates.some((t) => t.id === decoded.templateId)) {
+        setTemplateId(decoded.templateId);
+      }
+      setStep(Math.max(0, Math.min(STEP_LABELS.length - 1, decoded.step ?? 0)));
+      setRestoredFromLink(true);
+    });
   }, [hydrated, setData, setTemplateId]);
 
   function patch(p: Partial<ResumeData>) {

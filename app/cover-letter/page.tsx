@@ -55,9 +55,11 @@ export default function CoverLetterBuilderPage() {
     const decoded = decodeContinueState<{ v: number; step: number; data: CoverLetterData }>(encoded);
     if (!decoded || !decoded.data) return;
 
-    setData(decoded.data);
-    setStep(Math.max(0, Math.min(STEP_LABELS.length - 1, decoded.step ?? 0)));
-    setRestoredFromLink(true);
+    queueMicrotask(() => {
+      setData(decoded.data);
+      setStep(Math.max(0, Math.min(STEP_LABELS.length - 1, decoded.step ?? 0)));
+      setRestoredFromLink(true);
+    });
   }, [hydrated, setData]);
 
   function patch(p: Partial<CoverLetterData>) {
